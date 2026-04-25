@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — NULL SYSTEM WORKSHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:#07090b;--surface:#0d1117;--surface2:#12181f;--surface3:#1a2330;
+      --border:rgba(245,138,10,0.22);--border-sub:rgba(255,255,255,0.05);
+      --orange:#f58a0a;--orange-glow:rgba(245,138,10,0.35);--orange-dim:rgba(245,138,10,0.10);
+      --white:#dde4ec;--muted:#4a5566;--muted2:#7a8fa8;
+      --f-display:'Rajdhani',sans-serif;--f-ui:'Barlow Condensed',sans-serif;--f-body:'Barlow',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--white);font-family:var(--f-body);overflow-x:hidden;}
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--orange);}
+    .lbl{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--orange);}
+    .h1{font-family:var(--f-display);font-size:clamp(2.8rem,6vw,5.5rem);font-weight:700;line-height:.9;text-transform:uppercase;}
+    .h2{font-family:var(--f-display);font-size:clamp(2rem,4vw,3.6rem);font-weight:700;text-transform:uppercase;line-height:.96;}
+    .body{font-size:14.5px;line-height:1.75;color:var(--muted2);font-weight:300;}
+    .wrap{max-width:1320px;margin:0 auto;padding:0 48px;}
+    .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .2s;}
+    .btn-primary{background:var(--orange);color:#000;padding:14px 30px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-primary:hover{background:#ffaa35;box-shadow:0 0 32px var(--orange-glow);}
+    .btn-ghost{background:transparent;color:var(--white);padding:13px 30px;border:1px solid rgba(255,255,255,0.18);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+    .sec-tag{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+    .sec-tag-line{width:36px;height:1px;background:var(--orange);}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;z-index:900;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,11,.82);backdrop-filter:blur(22px);border-bottom:1px solid var(--border-sub);transition:border-color .3s,background .3s;}
+    nav.on{background:rgba(7,9,11,.97);border-bottom-color:var(--border);}
+    .logo{text-decoration:none;display:flex;flex-direction:column;line-height:1;}
+    .logo-main{font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);}
+    .logo-sub{font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);margin-top:3px;}
+    .nav-links{display:flex;align-items:center;gap:38px;list-style:none;}
+    .nav-links a{font-family:var(--f-ui);font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color .2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1px;background:var(--orange);transition:width .22s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after{width:100%;}
+    .nav-links a.active{color:var(--orange);}
+    .nav-links a.active::after{width:100%;}
+
+    /* PAGE HERO */
+    .page-hero{position:relative;padding:160px 0 90px;overflow:hidden;background:var(--black);}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 50%,rgba(245,138,10,.06) 0%,transparent 65%);}
+    .page-hero-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;}
+    .hero-slash-v{position:absolute;right:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--orange) 25%,var(--orange) 75%,transparent);opacity:.4;}
+    .page-hero .wrap{position:relative;z-index:2;}
+    .page-hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:22px;animation:fade-up .6s .1s both;}
+    .ph-line{width:44px;height:1px;background:var(--orange);}
+    .page-hero h1{animation:fade-up .6s .25s both;margin-bottom:18px;}
+    .page-hero h1 em{font-style:normal;color:var(--orange);}
+    .page-hero-sub{font-size:15px;color:var(--muted2);font-weight:300;line-height:1.7;max-width:560px;animation:fade-up .6s .4s both;}
+
+    /* SERVICE CARDS */
+    .sec-services{padding:80px 0 130px;}
+    .services-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+    .svc-card{background:var(--surface2);padding:48px 44px;position:relative;overflow:hidden;border-top:2px solid transparent;transition:border-color .25s,background .25s;}
+    .svc-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 10% 80%,rgba(245,138,10,.04) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+    .svc-card:hover{border-top-color:var(--orange);background:var(--surface3);}
+    .svc-card:hover::before{opacity:1;}
+    .svc-icon{width:52px;height:52px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:28px;position:relative;transition:border-color .25s;}
+    .svc-card:hover .svc-icon{border-color:var(--orange);}
+    .svc-num{position:absolute;top:20px;right:24px;font-family:var(--f-display);font-size:80px;font-weight:700;color:var(--surface3);line-height:1;user-select:none;pointer-events:none;transition:color .25s;}
+    .svc-card:hover .svc-num{color:rgba(245,138,10,.06);}
+    .svc-title{font-family:var(--f-display);font-size:24px;font-weight:700;text-transform:uppercase;margin-bottom:14px;}
+    .svc-desc{font-size:14px;line-height:1.78;color:var(--muted2);font-weight:300;margin-bottom:28px;}
+    .svc-feats{display:flex;flex-direction:column;gap:8px;}
+    .svc-feat{display:flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:12px;letter-spacing:.08em;color:var(--muted2);}
+    .svc-feat::before{content:'';width:5px;height:1px;background:var(--orange);flex-shrink:0;}
+
+    /* PROCESS SECTION */
+    .sec-process{padding:130px 0;background:var(--surface);position:relative;overflow:hidden;}
+    .sec-process::before,.sec-process::after{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--orange) 50%,transparent);}
+    .sec-process::before{top:0;}
+    .sec-process::after{bottom:0;}
+    .process-nebula{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(245,138,10,.05) 0%,transparent 70%);pointer-events:none;}
+    .process-grid{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;}
+    .process-steps{display:flex;flex-direction:column;gap:0;}
+    .process-step{display:flex;gap:22px;padding:30px 0;border-bottom:1px solid var(--border-sub);position:relative;}
+    .process-step:last-child{border-bottom:none;padding-bottom:0;}
+    .process-step:first-child{padding-top:0;}
+    .step-num{font-family:var(--f-display);font-size:42px;font-weight:700;color:var(--surface3);line-height:1;flex-shrink:0;width:54px;}
+    .step-body h4{font-family:var(--f-display);font-size:17px;font-weight:600;text-transform:uppercase;margin-bottom:7px;}
+    .step-body p{font-size:14px;color:var(--muted2);font-weight:300;line-height:1.7;}
+
+    .process-visual{position:relative;height:500px;}
+    .pv-frame{position:absolute;inset:0;background:var(--surface2);clip-path:polygon(0 0,91% 0,100% 9%,100% 100%,9% 100%,0 91%);}
+    .pv-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 48%,rgba(245,138,10,.03) 50%,transparent 52%),linear-gradient(-45deg,transparent 48%,rgba(245,138,10,.02) 50%,transparent 52%);background-size:40px 40px;}
+    .pv-frame::after{content:'';position:absolute;top:0;right:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--orange) 30%,var(--orange) 70%,transparent);}
+    .pv-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;}
+    .pv-mono{font-family:var(--f-display);font-size:64px;font-weight:700;color:var(--surface3);letter-spacing:.05em;line-height:1;}
+    .pv-sub{font-family:var(--f-ui);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
+    .pv-stats{position:absolute;bottom:28px;left:28px;right:28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;}
+    .pv-stat{background:rgba(7,9,11,.7);padding:14px;text-align:center;backdrop-filter:blur(8px);}
+    .pv-stat-n{font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--orange);line-height:1;}
+    .pv-stat-l{font-family:var(--f-ui);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+    /* CTA BAND */
+    .sec-cta{padding:130px 0;}
+    .cta-box{background:var(--surface2);border:1px solid var(--border);padding:80px;position:relative;overflow:hidden;text-align:center;clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,24px 100%,0 calc(100% - 24px));}
+    .cta-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(245,138,10,.05) 0%,transparent 65%);}
+    .cta-box .lbl{margin-bottom:18px;display:block;}
+    .cta-box .h2{margin-bottom:18px;}
+    .cta-box .body{max-width:520px;margin:0 auto 40px;}
+    .cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;}
+    /* orange corner accents on cta-box */
+    .cta-box::after{content:'';position:absolute;top:0;left:0;width:40px;height:40px;border-top:2px solid var(--orange);border-left:2px solid var(--orange);}
+    .cta-box .cta-corner-br{position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:2px solid var(--orange);border-right:2px solid var(--orange);}
+
+    /* FOOTER */
+    footer{background:var(--black);border-top:1px solid var(--border-sub);padding:68px 48px 40px;}
+    .footer-grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:52px;border-bottom:1px solid var(--border-sub);}
+    .f-desc{font-size:13px;color:var(--muted);line-height:1.75;margin:14px 0 22px;}
+    .f-relay{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);line-height:1.9;}
+    .f-relay span{color:var(--orange);}
+    .f-col h5{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+    .f-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+    .f-col a{font-family:var(--f-ui);font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .18s;}
+    .f-col a:hover{color:var(--white);}
+    .footer-bar{max-width:1320px;margin:0 auto;padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
+    .f-copy{font-family:var(--f-ui);font-size:10.5px;color:var(--muted);letter-spacing:.12em;}
+    .f-copy strong{color:var(--orange);font-weight:600;}
+
+    /* ANIMATIONS */
+    @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .au{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+    .au.in{opacity:1;transform:translateY(0);}
+    .aus>*{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;}
+    .aus.in>*:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.00s}
+    .aus.in>*:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.08s}
+    .aus.in>*:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.16s}
+    .aus.in>*:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.24s}
+    .aus.in>*:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.32s}
+    .aus.in>*:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.40s}
+
+    /* RESPONSIVE */
+    @media(max-width:1080px){.services-grid,.process-grid{grid-template-columns:1fr;gap:52px;}.footer-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}.process-visual{height:320px;}}
+    @media(max-width:640px){.wrap,.footer-grid,nav,footer{padding-left:20px;padding-right:20px;}.footer-grid{grid-template-columns:1fr;gap:36px;}.cta-box{padding:44px 24px;}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo"><span class="logo-main">NULL SYSTEM</span><span class="logo-sub">Workshop</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product-lineup.html">Product Lineup</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="btn btn-primary" style="padding:10px 22px;font-size:10.5px;">Request Quote</a>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-scan"></div>
+  <div class="hero-slash-v"></div>
+  <div class="wrap">
+    <div class="page-hero-eyebrow">
+      <div class="ph-line"></div>
+      <span class="lbl">What We Offer</span>
+    </div>
+    <h1 class="h1">Our <em>Services</em></h1>
+    <p class="page-hero-sub">From hull fabrication to field repairs, we provide the full spectrum of shipbuilding and maintenance services to keep your fleet operational across every frontier sector.</p>
+  </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="sec-services">
+  <div class="wrap">
+    <div class="services-grid aus">
+
+      <div class="svc-card">
+        <div class="svc-num">01</div>
+        <div class="svc-icon">⚙️</div>
+        <div class="svc-title">Hull Fabrication</div>
+        <p class="svc-desc">Full-scale construction of custom spacecraft hulls from initial design brief to launch-ready delivery. Built to withstand the harshest conditions in deep-space operations, from radiation corridors to high-pressure environments.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">Custom hull geometry and structural engineering</div>
+          <div class="svc-feat">Material selection for mission-specific environments</div>
+          <div class="svc-feat">ORAC compliance certification included</div>
+          <div class="svc-feat">Delivery timelines from 21–90 days</div>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-num">02</div>
+        <div class="svc-icon">🔧</div>
+        <div class="svc-title">Refit &amp; Retrofit</div>
+        <p class="svc-desc">Comprehensive upgrade packages for existing vessels — from propulsion overhauls and weapons system integration to full interior reconfiguration. We breathe new operational life into aging hulls with modern systems and structural reinforcement.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">Drive system replacement and calibration</div>
+          <div class="svc-feat">Third-party module integration</div>
+          <div class="svc-feat">Structural reinforcement and hull plating</div>
+          <div class="svc-feat">Interior reconfiguration and life support upgrades</div>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-num">03</div>
+        <div class="svc-icon">🛰️</div>
+        <div class="svc-title">Emergency Field Repairs</div>
+        <p class="svc-desc">Mobile repair barges deployable across frontier sectors within 24–72 hours of a distress signal. Our field engineering teams are equipped to handle critical damage scenarios, from breach sealing to drive restoration, in hostile environments.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">24/7 emergency response activation</div>
+          <div class="svc-feat">Multi-sector coverage with pre-positioned assets</div>
+          <div class="svc-feat">Hull breach sealing and atmospheric restoration</div>
+          <div class="svc-feat">On-site diagnostics and component replacement</div>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-num">04</div>
+        <div class="svc-icon">📐</div>
+        <div class="svc-title">Custom Design</div>
+        <p class="svc-desc">End-to-end bespoke vessel design for unique operational requirements. Our engineering team works directly with clients from concept through prototype to deliver vessels that no off-the-shelf platform can match.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">Mission requirement analysis and brief development</div>
+          <div class="svc-feat">3D structural modeling and simulation</div>
+          <div class="svc-feat">Iterative prototype review process</div>
+          <div class="svc-feat">Full IP ownership transfer on delivery</div>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-num">05</div>
+        <div class="svc-icon">🔗</div>
+        <div class="svc-title">Systems Integration</div>
+        <p class="svc-desc">Expert installation, wiring, and calibration of complex third-party systems — weapons arrays, navigation suites, communications infrastructure, and specialized industrial equipment — into existing or new hull configurations.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">Cross-platform compatibility assessment</div>
+          <div class="svc-feat">Weapons and defense system installation</div>
+          <div class="svc-feat">Navigation and sensor suite integration</div>
+          <div class="svc-feat">Post-install diagnostic certification</div>
+        </div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-num">06</div>
+        <div class="svc-icon">📦</div>
+        <div class="svc-title">Logistics Support</div>
+        <p class="svc-desc">Dedicated fleet and cargo logistics for corporations operating across multiple sectors. We provide consistent, reliable inter-sector shipping solutions backed by dedicated support crews and route management infrastructure.</p>
+        <div class="svc-feats">
+          <div class="svc-feat">Fleet scheduling and route optimization</div>
+          <div class="svc-feat">Cargo handling and secure transfer</div>
+          <div class="svc-feat">Dedicated support crew assignment</div>
+          <div class="svc-feat">Multi-sector coordination and tracking</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec-process">
+  <div class="process-nebula"></div>
+  <div class="wrap">
+    <div class="process-grid">
+
+      <!-- Visual -->
+      <div class="process-visual au">
+        <div class="pv-frame">
+          <div class="pv-content">
+            <div class="pv-mono">NSW</div>
+            <div class="pv-sub">Service Operations</div>
+          </div>
+          <div class="pv-stats">
+            <div class="pv-stat"><div class="pv-stat-n">250+</div><div class="pv-stat-l">Projects</div></div>
+            <div class="pv-stat"><div class="pv-stat-n">98%</div><div class="pv-stat-l">On Time</div></div>
+            <div class="pv-stat"><div class="pv-stat-n">24/7</div><div class="pv-stat-l">Support</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <div class="au">
+        <div class="sec-tag"><div class="sec-tag-line"></div><span class="lbl">How It Works</span></div>
+        <h2 class="h2" style="margin-bottom:44px;">Our Service Process</h2>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <h4>Initial Brief</h4>
+              <p>Submit your requirements via our comms relay. Our team will acknowledge within 12 hours and schedule a full technical consultation.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <h4>Assessment &amp; Quote</h4>
+              <p>Engineers conduct a full technical assessment and deliver a detailed quote within 72 hours, covering scope, materials, timeline, and delivery logistics.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <h4>Execution</h4>
+              <p>Work begins upon contract sign-off. You receive real-time progress updates and milestone reports throughout the engagement.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <h4>Delivery &amp; Support</h4>
+              <p>Final delivery includes full documentation, compliance certification, and a 90-day support period for all new builds and major retrofits.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec-cta">
+  <div class="wrap">
+    <div class="cta-box au">
+      <div class="cta-corner-br"></div>
+      <span class="lbl">Ready to Get Started?</span>
+      <h2 class="h2" style="margin-bottom:14px;">Let's Build Something<br>Mission-Ready</h2>
+      <p class="body">Whether you need a complete custom build, an emergency field repair, or a fleet logistics partner — our team is standing by. Reach out via comms and we'll have a technical team assigned within 12 hours.</p>
+      <div class="cta-actions">
+        <a href="index.html#contact" class="btn btn-primary">
+          Contact Our Team
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l5 4-5 4" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="product-lineup.html" class="btn btn-ghost">Browse Product Lineup</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div><span style="font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;">NULL SYSTEM</span><br><span style="font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);">Workshop</span></div>
+      <p class="f-desc">Frontier-grade fabrication for colonies and independent operators across the Fringes.</p>
+      <div class="f-relay">Relay: <span>NSW-FRINGE-01</span><br>Sector: <span>Outer Rim Station 7</span></div>
+    </div>
+    <div class="f-col"><h5>Navigation</h5><ul><li><a href="index.html">Home</a></li><li><a href="product-lineup.html">Product Lineup</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About Us</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+    <div class="f-col"><h5>Services</h5><ul><li><a href="services.html">Hull Fabrication</a></li><li><a href="services.html">Refit &amp; Retrofit</a></li><li><a href="services.html">Field Repairs</a></li><li><a href="services.html">Custom Design</a></li><li><a href="services.html">Logistics Support</a></li></ul></div>
+    <div class="f-col"><h5>Comms</h5><ul><li><a href="mailto:contact@nullsystems.com">contact@nullsystems.com</a></li><li><a href="tel:+15550123">+1-555-0123</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bar">
+    <div class="f-copy"><strong>Null System Workshop</strong> © 2026. All Rights Reserved.</div>
+    <div class="f-copy">NSW-FRINGE-01 · OUTER RIM STATION 7</div>
+  </div>
+</footer>
+
+<script src="assets/js/products.js"></script>
+<script src="assets/js/cart.js"></script>
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('on', window.scrollY > 50), { passive: true });
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }), { threshold: 0.1 });
+  document.querySelectorAll('.au, .aus').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

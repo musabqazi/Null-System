@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Lineup — NULL SYSTEM WORKSHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:#07090b;--surface:#0d1117;--surface2:#12181f;--surface3:#1a2330;
+      --border:rgba(245,138,10,0.22);--border-sub:rgba(255,255,255,0.05);
+      --orange:#f58a0a;--orange-glow:rgba(245,138,10,0.35);--orange-dim:rgba(245,138,10,0.10);
+      --white:#dde4ec;--muted:#4a5566;--muted2:#7a8fa8;
+      --f-display:'Rajdhani',sans-serif;--f-ui:'Barlow Condensed',sans-serif;--f-body:'Barlow',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--white);font-family:var(--f-body);overflow-x:hidden;}
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--orange);}
+    .lbl{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--orange);}
+    .h1{font-family:var(--f-display);font-size:clamp(2.8rem,6vw,5.5rem);font-weight:700;line-height:.9;text-transform:uppercase;}
+    .h2{font-family:var(--f-display);font-size:clamp(2rem,4vw,3.6rem);font-weight:700;text-transform:uppercase;line-height:.96;}
+    .body{font-size:14.5px;line-height:1.75;color:var(--muted2);font-weight:300;}
+    .wrap{max-width:1320px;margin:0 auto;padding:0 48px;}
+    .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .2s;}
+    .btn-primary{background:var(--orange);color:#000;padding:14px 30px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-primary:hover{background:#ffaa35;box-shadow:0 0 32px var(--orange-glow);}
+    .btn-ghost{background:transparent;color:var(--white);padding:13px 30px;border:1px solid rgba(255,255,255,0.18);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+    .sec-tag{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+    .sec-tag-line{width:36px;height:1px;background:var(--orange);}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;z-index:900;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,11,.82);backdrop-filter:blur(22px);border-bottom:1px solid var(--border-sub);transition:border-color .3s,background .3s;}
+    nav.on{background:rgba(7,9,11,.97);border-bottom-color:var(--border);}
+    .logo{text-decoration:none;display:flex;flex-direction:column;line-height:1;}
+    .logo-main{font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);}
+    .logo-sub{font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);margin-top:3px;}
+    .nav-links{display:flex;align-items:center;gap:38px;list-style:none;}
+    .nav-links a{font-family:var(--f-ui);font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color .2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1px;background:var(--orange);transition:width .22s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after{width:100%;}
+    .nav-links a.active{color:var(--orange);}
+    .nav-links a.active::after{width:100%;}
+
+    /* PAGE HERO */
+    .page-hero{position:relative;padding:150px 0 80px;overflow:hidden;background:var(--black);}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(245,138,10,.06) 0%,transparent 65%);}
+    .page-hero-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;}
+    .hero-slash-v{position:absolute;right:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent 0%,var(--orange) 25%,var(--orange) 75%,transparent 100%);opacity:.4;}
+    .page-hero .wrap{position:relative;z-index:2;}
+    .page-hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:22px;animation:fade-up .6s .1s both;}
+    .ph-line{width:44px;height:1px;background:var(--orange);}
+    .page-hero h1{animation:fade-up .6s .25s both;margin-bottom:18px;}
+    .page-hero h1 em{font-style:normal;color:var(--orange);}
+    .page-hero-sub{font-size:15px;color:var(--muted2);font-weight:300;line-height:1.7;max-width:560px;animation:fade-up .6s .4s both;}
+
+    /* FILTER BAR */
+    .filter-section{background:var(--surface);border-top:1px solid var(--border-sub);border-bottom:1px solid var(--border-sub);padding:0;position:sticky;top:70px;z-index:800;}
+    .filter-inner{max-width:1320px;margin:0 auto;padding:0 48px;display:flex;gap:0;align-items:stretch;flex-wrap:nowrap;overflow-x:auto;}
+    .filter-group{display:flex;align-items:center;gap:0;border-right:1px solid var(--border-sub);flex-shrink:0;}
+    .filter-group:last-child{border-right:none;}
+    .filter-label{font-family:var(--f-ui);font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);padding:0 18px;white-space:nowrap;border-right:1px solid var(--border-sub);display:flex;align-items:center;height:52px;}
+    .filter-pills{display:flex;align-items:center;gap:0;padding:0 8px;}
+    .pill{font-family:var(--f-ui);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);padding:7px 14px;cursor:pointer;transition:color .18s,background .18s;border:none;background:transparent;white-space:nowrap;height:52px;display:flex;align-items:center;border-bottom:2px solid transparent;}
+    .pill:hover{color:var(--white);}
+    .pill.active{color:var(--orange);border-bottom-color:var(--orange);}
+    .filter-reset{font-family:var(--f-ui);font-size:9.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding:0 18px;cursor:pointer;background:none;border:none;border-left:1px solid var(--border-sub);height:52px;display:flex;align-items:center;gap:7px;margin-left:auto;flex-shrink:0;transition:color .18s;}
+    .filter-reset:hover{color:var(--orange);}
+
+    /* RESULTS BAR */
+    .results-bar{max-width:1320px;margin:0 auto;padding:28px 48px 0;display:flex;align-items:center;justify-content:space-between;}
+    .results-count{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+    .results-count span{color:var(--orange);}
+
+    /* GRID */
+    .catalog-section{padding:28px 0 130px;}
+    .catalog-grid{max-width:1320px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+
+    /* PRODUCT CARD */
+    .prod-card{position:relative;overflow:hidden;cursor:pointer;background:var(--surface2);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .2s;}
+    .prod-card:hover{transform:translateY(-2px);}
+    .prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange);z-index:3;transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+    .prod-card:hover::before{transform:scaleX(1);}
+    .prod-thumb-wrap{position:relative;overflow:hidden;}
+    .prod-thumb-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(7,9,11,.7) 0%,rgba(7,9,11,.1) 60%,transparent 100%);z-index:1;transition:opacity .3s;}
+    .prod-card:hover .prod-thumb-wrap::after{opacity:.5;}
+    .prod-thumb{width:100%;aspect-ratio:16/9;display:block;object-fit:cover;filter:brightness(.6) saturate(.65);transition:transform .55s,filter .3s;}
+    .prod-card:hover .prod-thumb{transform:scale(1.05);filter:brightness(.78) saturate(.82);}
+    .prod-thumb-ph{width:100%;aspect-ratio:16/9;background:linear-gradient(140deg,#0e1a24 0%,#07090b 100%);position:relative;}
+    .prod-thumb-ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(245,138,10,.07) 0%,transparent 65%);}
+    /* Ship silhouette in placeholder */
+    .prod-thumb-ph::after{content:'NSW';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:48px;font-weight:700;color:rgba(26,35,48,0.8);letter-spacing:.1em;}
+
+    .prod-body{padding:22px 22px 24px;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--border-sub);}
+    .prod-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;}
+    .tag{font-family:var(--f-ui);font-size:8.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;padding:3px 9px;border:1px solid;}
+    .tag-cat{color:var(--orange);border-color:var(--orange);background:var(--orange-dim);}
+    .tag-class{color:var(--muted2);border-color:var(--border-sub);}
+    .tag-role{color:var(--muted2);border-color:var(--border-sub);}
+    .prod-name{font-family:var(--f-display);font-size:20px;font-weight:700;text-transform:uppercase;line-height:1.05;margin-bottom:10px;}
+    .prod-desc{font-size:13px;color:var(--muted);font-weight:300;line-height:1.65;flex:1;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .prod-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .prod-cta{font-family:var(--f-ui);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:6px;transition:gap .2s;}
+    .prod-card:hover .prod-cta{gap:10px;}
+
+    /* EMPTY STATE */
+    .empty-state{grid-column:1/-1;text-align:center;padding:100px 20px;display:none;}
+    .empty-state.show{display:block;}
+    .empty-icon{font-size:44px;margin-bottom:18px;opacity:.3;}
+    .empty-title{font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;margin-bottom:10px;color:var(--muted);}
+    .empty-sub{font-size:13px;color:var(--muted);font-weight:300;}
+
+    /* FOOTER */
+    footer{background:var(--black);border-top:1px solid var(--border-sub);padding:68px 48px 40px;}
+    .footer-grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:52px;border-bottom:1px solid var(--border-sub);}
+    .f-desc{font-size:13px;color:var(--muted);line-height:1.75;margin:14px 0 22px;}
+    .f-relay{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);line-height:1.9;}
+    .f-relay span{color:var(--orange);}
+    .f-col h5{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+    .f-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+    .f-col a{font-family:var(--f-ui);font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .18s;}
+    .f-col a:hover{color:var(--white);}
+    .footer-bar{max-width:1320px;margin:0 auto;padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
+    .f-copy{font-family:var(--f-ui);font-size:10.5px;color:var(--muted);letter-spacing:.12em;}
+    .f-copy strong{color:var(--orange);font-weight:600;}
+
+    /* ANIMATIONS */
+    @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .au{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+    .au.in{opacity:1;transform:translateY(0);}
+    .card-hidden{opacity:0;transform:scale(.97);pointer-events:none;position:absolute;visibility:hidden;}
+    .card-shown{opacity:1;transform:scale(1);pointer-events:all;position:relative;visibility:visible;transition:opacity .3s,transform .3s;}
+
+    /* RESPONSIVE */
+    @media(max-width:1080px){.catalog-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+    @media(max-width:640px){.wrap,.catalog-grid,nav,footer{padding-left:20px;padding-right:20px;}.catalog-grid{grid-template-columns:1fr;}.filter-inner{padding:0 20px;}.results-bar{padding-left:20px;padding-right:20px;}.footer-grid{grid-template-columns:1fr;gap:36px;}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <span class="logo-main">NULL SYSTEM</span>
+    <span class="logo-sub">Workshop</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product-lineup.html" class="active">Product Lineup</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="btn btn-primary" style="padding:10px 22px;font-size:10.5px;">Request Quote</a>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-scan"></div>
+  <div class="hero-slash-v"></div>
+  <div class="wrap">
+    <div class="page-hero-eyebrow">
+      <div class="ph-line"></div>
+      <span class="lbl">Null System Workshop</span>
+    </div>
+    <h1 class="h1">
+      Product <em>Lineup</em>
+    </h1>
+    <p class="page-hero-sub">Browse our full fleet of frontier-grade vessels. Filter by category, class, or operational role to find the craft built for your mission.</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-section">
+  <div class="filter-inner">
+
+    <div class="filter-group">
+      <span class="filter-label">Category</span>
+      <div class="filter-pills" id="filter-cat">
+        <button class="pill active" data-filter="cat" data-value="all">All</button>
+        <button class="pill" data-filter="cat" data-value="Military">Military</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Class</span>
+      <div class="filter-pills" id="filter-class">
+        <button class="pill active" data-filter="class" data-value="all">All</button>
+        <button class="pill" data-filter="class" data-value="Bomber">Bomber</button>
+        <button class="pill" data-filter="class" data-value="Capital">Capital</button>
+        <button class="pill" data-filter="class" data-value="Fighter">Fighter</button>
+        <button class="pill" data-filter="class" data-value="Patrol">Patrol</button>
+        <button class="pill" data-filter="class" data-value="Support">Support</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Role</span>
+      <div class="filter-pills" id="filter-role">
+        <button class="pill active" data-filter="role" data-value="all">All</button>
+        <button class="pill" data-filter="role" data-value="Defensive">Defensive</button>
+        <button class="pill" data-filter="role" data-value="Offensive">Offensive</button>
+        <button class="pill" data-filter="role" data-value="Utility">Utility</button>
+      </div>
+    </div>
+
+    <button class="filter-reset" id="resetBtn">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5a4 4 0 1 0 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 1 3 3l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Reset
+    </button>
+  </div>
+</div>
+
+<!-- RESULTS BAR -->
+<div class="results-bar au">
+  <div class="results-count">Showing <span id="visibleCount">11</span> of <span>11</span> vessels</div>
+</div>
+
+<!-- CATALOG GRID -->
+<div class="catalog-section">
+  <div class="catalog-grid" id="catalogGrid">
+
+    <!-- CARD 1: Archrange-3807 M1 -->
+    <a href="product-detail.html?id=archrange-3807-m1" class="prod-card card-shown"
+       data-product-id="archrange-3807-m1" data-cat="Military" data-class="Fighter" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/archrange-3807-m1.png" alt="Archrange-3807 M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Fighter</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Archrange-3807 M1</div>
+        <p class="prod-desc">The ultimate interplanetary heavy fighter for frontier colony militias. Industrial-grade construction with advanced propulsion and heavy armor for autonomous deep-space operations.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 2: Assault Archrange-3807 M1 -->
+    <a href="product-detail.html?id=assault-archrange-3807-m1" class="prod-card card-shown"
+       data-product-id="assault-archrange-3807-m1" data-cat="Military" data-class="Fighter" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/assault-archrange-3807-m1.png" alt="Assault Archrange-3807 M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Fighter</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Assault Archrange-3807 M1</div>
+        <p class="prod-desc">A formidable evolution of the M1 heavy fighter. Four Assault Cannon turrets extend engagement range to challenge capital vessels despite its compact frame.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 3: Armored Heavy Tug M1 -->
+    <a href="product-detail.html?id=armored-heavy-tug-m1" class="prod-card card-shown"
+       data-product-id="armored-heavy-tug-m1" data-cat="Military" data-class="Support" data-role="Utility">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/armored-heavy-tug-m1.png" alt="Armored Heavy Tug M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Support</span>
+          <span class="tag tag-role">Utility</span>
+        </div>
+        <div class="prod-name">Armored Heavy Tug M1</div>
+        <p class="prod-desc">A battle-hardened tug turned warship. Thick armor plating and twin cannons — top and bottom — make this scrappy vessel a proven combat survivor.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 4: Blade Fighter M3 -->
+    <a href="product-detail.html?id=blade-fighter-m3" class="prod-card card-shown"
+       data-product-id="blade-fighter-m3" data-cat="Military" data-class="Fighter" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/blade-fighter-m3.png" alt="Blade Fighter M3">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Fighter</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Blade Fighter M3</div>
+        <p class="prod-desc">A revival of a classic spacefighter blueprint. Modular architecture with gunpods, autocannons, and dual rocket launchers — affordable, versatile, frontier-ready.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 5: Blade Bomber M3 -->
+    <a href="product-detail.html?id=blade-bomber-m3" class="prod-card card-shown"
+       data-product-id="blade-bomber-m3" data-cat="Military" data-class="Bomber" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/blade-bomber-m3.png" alt="Blade Bomber M3">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Bomber</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Blade Bomber M3</div>
+        <p class="prod-desc">Precision strike variant of the Blade Fighter M3. Six GI3W Guided Missiles replace wing gunpods for devastating long-range offensive capability.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 6: Destroyer M1 -->
+    <a href="product-detail.html?id=destroyer-m1" class="prod-card card-shown"
+       data-product-id="destroyer-m1" data-cat="Military" data-class="Capital" data-role="Defensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/destroyer-m1.png" alt="Destroyer M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Capital</span>
+          <span class="tag tag-role">Defensive</span>
+        </div>
+        <div class="prod-name">Destroyer M1</div>
+        <p class="prod-desc">NSW's inaugural destroyer-class vessel. Built to neutralize raider and pirate threats to colonial territories — capable of solo deployment or fleet integration.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 7: Glaive Patrol M1 -->
+    <a href="product-detail.html?id=glaive-patrol-m1" class="prod-card card-shown"
+       data-product-id="glaive-patrol-m1" data-cat="Military" data-class="Patrol" data-role="Defensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/glaive-patrol-m1.png" alt="Glaive Patrol M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Patrol</span>
+          <span class="tag tag-role">Defensive</span>
+        </div>
+        <div class="prod-name">Glaive Patrol M1</div>
+        <p class="prod-desc">The ultimate solution for protecting remote colonies. Expertly crafted for military frontier defense — precision, efficiency, and reliability on patrol.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 8: Light Carrier M1 -->
+    <a href="product-detail.html?id=light-carrier-m1" class="prod-card card-shown"
+       data-product-id="light-carrier-m1" data-cat="Military" data-class="Capital" data-role="Utility">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/light-carrier-m1.png" alt="Light Carrier M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Capital</span>
+          <span class="tag tag-role">Utility</span>
+        </div>
+        <div class="prod-name">Light Carrier M1</div>
+        <p class="prod-desc">Versatile frontier carrier for mining, salvaging, and transporting small craft. Lightweight design for unparalleled maneuverability across contested sectors.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 9: Or3 Corvette M1 -->
+    <a href="product-detail.html?id=or3-corvette-m1" class="prod-card card-shown"
+       data-product-id="or3-corvette-m1" data-cat="Military" data-class="Patrol" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/or3-corvette-m1.png" alt="Or3 Corvette M1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Patrol</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Or3 Corvette M1</div>
+        <p class="prod-desc">Originally a light freighter, expertly converted for military use. Speed, agility, and durability in one package — built for frontier patrol and strategic engagement.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 10: Orion Missile Frigate V1 -->
+    <a href="product-detail.html?id=orion-missile-frigate-v1" class="prod-card card-shown"
+       data-product-id="orion-missile-frigate-v1" data-cat="Military" data-class="Capital" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/orion-missile-frigate-v1.png" alt="Orion Missile Frigate V1">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Capital</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">Orion Missile Frigate V1</div>
+        <p class="prod-desc">Sleek design meets overwhelming firepower. Military-grade missiles make this frigate the ultimate deterrent against any enemy threatening the frontier.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 11: SC-M2 -->
+    <a href="product-detail.html?id=sc-m2" class="prod-card card-shown"
+       data-product-id="sc-m2" data-cat="Military" data-class="Fighter" data-role="Offensive">
+      <div class="prod-thumb-wrap">
+        <img class="prod-thumb" src="images/products/sc-m2.png" alt="SC-M2">
+      </div>
+      <div class="prod-body">
+        <div class="prod-tags">
+          <span class="tag tag-cat">Military</span>
+          <span class="tag tag-class">Fighter</span>
+          <span class="tag tag-role">Offensive</span>
+        </div>
+        <div class="prod-name">SC-M2</div>
+        <p class="prod-desc">Engineered for interstellar warfare. A versatile light fighter with sleek design and high-performance capabilities — built to dominate militarily challenging frontier environments.</p>
+        <div class="prod-footer">
+          <span class="prod-cta">View Details <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 4h10M7 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+        <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">⚠</div>
+      <div class="empty-title">No Vessels Match</div>
+      <p class="empty-sub">No vessels match the current filter combination. Try adjusting your filters.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div><span style="font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;">NULL SYSTEM</span><br><span style="font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);">Workshop</span></div>
+      <p class="f-desc">Frontier-grade fabrication for colonies and independent operators across the Fringes.</p>
+      <div class="f-relay">Relay: <span>NSW-FRINGE-01</span><br>Sector: <span>Outer Rim Station 7</span></div>
+    </div>
+    <div class="f-col"><h5>Navigation</h5><ul><li><a href="index.html">Home</a></li><li><a href="product-lineup.html">Product Lineup</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About Us</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+    <div class="f-col"><h5>Services</h5><ul><li><a href="services.html">Hull Fabrication</a></li><li><a href="services.html">Refit &amp; Retrofit</a></li><li><a href="services.html">Field Repairs</a></li><li><a href="services.html">Custom Design</a></li><li><a href="services.html">Logistics Support</a></li></ul></div>
+    <div class="f-col"><h5>Comms</h5><ul><li><a href="mailto:contact@nullsystems.com">contact@nullsystems.com</a></li><li><a href="tel:+15550123">+1-555-0123</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bar">
+    <div class="f-copy"><strong>Null System Workshop</strong> © 2026. All Rights Reserved.</div>
+    <div class="f-copy">NSW-FRINGE-01 · OUTER RIM STATION 7</div>
+  </div>
+</footer>
+
+<script src="assets/js/products.js"></script>
+<script src="assets/js/cart.js"></script>
+<script>
+  // Nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('on', window.scrollY > 50), { passive: true });
+
+  // Scroll animations
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }), { threshold: 0.12 });
+  document.querySelectorAll('.au').forEach(el => io.observe(el));
+
+  // FILTER LOGIC
+  let activeFilters = { cat: 'all', class: 'all', role: 'all' };
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.prod-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const catOk  = activeFilters.cat   === 'all' || card.dataset.cat   === activeFilters.cat;
+      const classOk= activeFilters.class === 'all' || card.dataset.class === activeFilters.class;
+      const roleOk = activeFilters.role  === 'all' || card.dataset.role  === activeFilters.role;
+      if (catOk && classOk && roleOk) {
+        card.classList.remove('card-hidden');
+        card.classList.add('card-shown');
+        visible++;
+      } else {
+        card.classList.remove('card-shown');
+        card.classList.add('card-hidden');
+      }
+    });
+    document.getElementById('visibleCount').textContent = visible;
+    document.getElementById('emptyState').classList.toggle('show', visible === 0);
+  }
+
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filterType = pill.dataset.filter;
+      const value = pill.dataset.value;
+      activeFilters[filterType] = value;
+      // Update active pill in this group
+      document.querySelectorAll(`.pill[data-filter="${filterType}"]`).forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    activeFilters = { cat: 'all', class: 'all', role: 'all' };
+    document.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.value === 'all');
+    });
+    applyFilters();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Product Detail — NULL SYSTEM WORKSHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:#07090b;--surface:#0d1117;--surface2:#12181f;--surface3:#1a2330;
+      --border:rgba(245,138,10,0.22);--border-sub:rgba(255,255,255,0.05);
+      --orange:#f58a0a;--orange-glow:rgba(245,138,10,0.35);--orange-dim:rgba(245,138,10,0.10);
+      --white:#dde4ec;--muted:#4a5566;--muted2:#7a8fa8;
+      --f-display:'Rajdhani',sans-serif;--f-ui:'Barlow Condensed',sans-serif;--f-body:'Barlow',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--white);font-family:var(--f-body);overflow-x:hidden;}
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--orange);}
+    .lbl{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--orange);}
+    .h2{font-family:var(--f-display);font-size:clamp(2rem,4vw,3.6rem);font-weight:700;text-transform:uppercase;line-height:.96;}
+    .h3{font-family:var(--f-display);font-size:clamp(1.2rem,2vw,1.6rem);font-weight:700;text-transform:uppercase;}
+    .body{font-size:14.5px;line-height:1.75;color:var(--muted2);font-weight:300;}
+    .wrap{max-width:1320px;margin:0 auto;padding:0 48px;}
+    .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .2s;}
+    .btn-primary{background:var(--orange);color:#000;padding:14px 30px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-primary:hover{background:#ffaa35;box-shadow:0 0 32px var(--orange-glow);}
+    .btn-ghost{background:transparent;color:var(--white);padding:13px 30px;border:1px solid rgba(255,255,255,0.18);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+    .btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+    .btn-wishlist{background:var(--surface2);color:var(--muted2);padding:13px 22px;border:1px solid var(--border-sub);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:all .2s;}
+    .btn-wishlist:hover{border-color:var(--orange);color:var(--orange);}
+    .btn-wishlist.active{border-color:var(--orange);color:var(--orange);background:var(--orange-dim);}
+    .sec-tag{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+    .sec-tag-line{width:36px;height:1px;background:var(--orange);}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;z-index:900;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,11,.82);backdrop-filter:blur(22px);border-bottom:1px solid var(--border-sub);transition:border-color .3s,background .3s;}
+    nav.on{background:rgba(7,9,11,.97);border-bottom-color:var(--border);}
+    .logo{text-decoration:none;display:flex;flex-direction:column;line-height:1;}
+    .logo-main{font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);}
+    .logo-sub{font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);margin-top:3px;}
+    .nav-links{display:flex;align-items:center;gap:38px;list-style:none;}
+    .nav-links a{font-family:var(--f-ui);font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color .2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1px;background:var(--orange);transition:width .22s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after{width:100%;}
+    .nav-links a.active{color:var(--orange);}
+    .nav-links a.active::after{width:100%;}
+
+    /* BREADCRUMB */
+    .breadcrumb{padding:90px 0 0;background:var(--black);}
+    .breadcrumb .wrap{display:flex;align-items:center;gap:10px;padding-bottom:0;}
+    .bc-item{font-family:var(--f-ui);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .18s;}
+    .bc-item:hover{color:var(--orange);}
+    .bc-sep{color:var(--muted);font-size:9px;}
+    .bc-current{color:var(--orange);}
+
+    /* PRODUCT HERO */
+    .prod-hero{padding:32px 0 0;background:var(--black);position:relative;overflow:hidden;}
+    .prod-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 40%,rgba(245,138,10,.05) 0%,transparent 60%);}
+    .prod-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;z-index:2;}
+
+    /* Image Viewer */
+    .prod-gallery{position:relative;}
+    .prod-main-img{width:100%;aspect-ratio:16/9;background:linear-gradient(140deg,#0e1a24 0%,#07090b 100%);position:relative;clip-path:polygon(0 0,95% 0,100% 5%,100% 100%,5% 100%,0 95%);overflow:hidden;}
+    .prod-main-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 55% 45%,rgba(245,138,10,.08) 0%,transparent 65%);}
+    .prod-main-img::after{content:'NSW';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:72px;font-weight:700;color:rgba(26,35,48,.8);letter-spacing:.1em;}
+    .prod-main-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.75);position:relative;z-index:1;}
+    /* Orange edge accent */
+    .prod-main-img .edge-top{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--orange) 0%,transparent 50%);z-index:3;}
+    .prod-main-img .edge-right{position:absolute;top:0;right:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--orange) 0%,transparent 70%);z-index:3;}
+    /* Scan overlay */
+    .prod-main-img .scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);z-index:2;pointer-events:none;}
+
+    /* Thumbnails */
+    .prod-thumbs{display:flex;gap:3px;margin-top:3px;}
+    .prod-thumb-mini{flex:1;aspect-ratio:16/9;background:var(--surface2);cursor:pointer;border:1px solid transparent;transition:border-color .2s;position:relative;overflow:hidden;}
+    .prod-thumb-mini::before{content:'NSW';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:18px;font-weight:700;color:rgba(26,35,48,.8);}
+    .prod-thumb-mini:hover,.prod-thumb-mini.active{border-color:var(--orange);}
+    .prod-thumb-mini img{width:100%;height:100%;object-fit:cover;filter:brightness(.6);}
+
+    /* Product Info */
+    .prod-info{padding-top:8px;}
+    .prod-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+    .tag{font-family:var(--f-ui);font-size:8.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+    .tag-cat{color:var(--orange);border-color:var(--orange);background:var(--orange-dim);}
+    .tag-class{color:var(--muted2);border-color:var(--border-sub);}
+    .tag-role{color:var(--muted2);border-color:var(--border-sub);}
+    .prod-title{font-family:var(--f-display);font-size:clamp(2rem,3.5vw,3.2rem);font-weight:700;text-transform:uppercase;line-height:.96;margin-bottom:22px;}
+    .prod-title em{font-style:normal;color:var(--orange);}
+
+    /* Spec Table */
+    .spec-table{margin:28px 0;border:1px solid var(--border-sub);}
+    .spec-row{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid var(--border-sub);}
+    .spec-row:last-child{border-bottom:none;}
+    .spec-key{font-family:var(--f-ui);font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding:12px 16px;background:var(--surface2);border-right:1px solid var(--border-sub);display:flex;align-items:center;}
+    .spec-val{font-family:var(--f-ui);font-size:13px;color:var(--white);padding:12px 16px;display:flex;align-items:center;letter-spacing:.04em;}
+
+    /* Actions */
+    .prod-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;}
+    .ext-links{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+    .ext-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);text-decoration:none;padding:9px 16px;border:1px solid var(--border-sub);transition:all .2s;}
+    .ext-link:hover{border-color:var(--orange);color:var(--orange);}
+    .ext-link svg{flex-shrink:0;}
+
+    /* DESCRIPTION */
+    .prod-desc-section{padding:80px 0;background:var(--surface);}
+    .prod-desc-section::before,.prod-desc-section::after{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+    .desc-grid{display:grid;grid-template-columns:2fr 1fr;gap:80px;align-items:start;padding:60px 0;}
+    .desc-body h3{font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;margin-bottom:16px;color:var(--white);}
+    .desc-body p{font-size:14.5px;line-height:1.8;color:var(--muted2);font-weight:300;margin-bottom:20px;}
+    .desc-body p:last-child{margin-bottom:0;}
+    .additional-info{background:var(--surface2);padding:28px;border-left:2px solid var(--orange);}
+    .ai-title{font-family:var(--f-ui);font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--orange);margin-bottom:18px;}
+    .ai-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-sub);}
+    .ai-row:last-child{border-bottom:none;}
+    .ai-key{font-family:var(--f-ui);font-size:11px;color:var(--muted);letter-spacing:.1em;}
+    .ai-val{font-family:var(--f-ui);font-size:11px;color:var(--white);font-weight:600;}
+
+    /* REVIEWS */
+    .reviews-section{padding:80px 0;}
+    .reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:44px;}
+    .review-card{background:var(--surface2);padding:28px;border-left:2px solid transparent;transition:border-color .2s;}
+    .review-card:hover{border-left-color:var(--orange);}
+    .review-stars{display:flex;gap:3px;margin-bottom:12px;}
+    .star{color:var(--orange);font-size:13px;}
+    .star.empty{color:var(--surface3);}
+    .review-text{font-size:14px;line-height:1.75;color:var(--muted2);font-weight:300;margin-bottom:18px;font-style:italic;}
+    .reviewer{display:flex;align-items:center;gap:12px;}
+    .reviewer-avatar{width:36px;height:36px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--orange);}
+    .reviewer-name{font-family:var(--f-ui);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;}
+    .reviewer-role{font-family:var(--f-ui);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:3px;}
+    .reviews-header{display:flex;align-items:flex-end;justify-content:space-between;}
+    .rating-summary{display:flex;align-items:center;gap:18px;}
+    .rating-big{font-family:var(--f-display);font-size:56px;font-weight:700;color:var(--orange);line-height:1;}
+    .rating-info{display:flex;flex-direction:column;gap:4px;}
+    .rating-stars-row{display:flex;gap:3px;}
+    .rating-count{font-family:var(--f-ui);font-size:10px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;}
+
+    /* RELATED */
+    .related-section{padding:80px 0;background:var(--surface);}
+    .related-section::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:36px;}
+    .rel-card{background:var(--surface2);text-decoration:none;color:inherit;display:block;border-top:2px solid transparent;transition:border-color .22s,background .22s;}
+    .rel-card:hover{border-top-color:var(--orange);background:var(--surface3);}
+    .rel-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(140deg,#0e1a24 0%,#07090b 100%);position:relative;overflow:hidden;}
+    .rel-thumb::before{content:'NSW';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:24px;font-weight:700;color:rgba(26,35,48,.8);}
+    .rel-thumb img{position:relative;width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(.75);z-index:1;display:block;}
+    .rel-body{padding:18px 20px 20px;}
+    .rel-cat{font-family:var(--f-ui);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
+    .rel-name{font-family:var(--f-display);font-size:17px;font-weight:700;text-transform:uppercase;}
+
+    /* FOOTER */
+    footer{background:var(--black);border-top:1px solid var(--border-sub);padding:68px 48px 40px;}
+    .footer-grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:52px;border-bottom:1px solid var(--border-sub);}
+    .f-desc{font-size:13px;color:var(--muted);line-height:1.75;margin:14px 0 22px;}
+    .f-relay{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);line-height:1.9;}
+    .f-relay span{color:var(--orange);}
+    .f-col h5{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+    .f-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+    .f-col a{font-family:var(--f-ui);font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .18s;}
+    .f-col a:hover{color:var(--white);}
+    .footer-bar{max-width:1320px;margin:0 auto;padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
+    .f-copy{font-family:var(--f-ui);font-size:10.5px;color:var(--muted);letter-spacing:.12em;}
+    .f-copy strong{color:var(--orange);font-weight:600;}
+
+    /* ANIMATIONS */
+    @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .au{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+    .au.in{opacity:1;transform:translateY(0);}
+
+    /* RESPONSIVE */
+    @media(max-width:1080px){.prod-hero-grid,.desc-grid,.related-grid{grid-template-columns:1fr;gap:44px;}.reviews-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+    @media(max-width:640px){.wrap,.footer-grid,nav,footer{padding-left:20px;padding-right:20px;}.footer-grid{grid-template-columns:1fr;gap:36px;}.prod-actions{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo"><span class="logo-main">NULL SYSTEM</span><span class="logo-sub">Workshop</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product-lineup.html" class="active">Product Lineup</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="btn btn-primary" style="padding:10px 22px;font-size:10.5px;">Request Quote</a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="wrap">
+    <a href="index.html" class="bc-item">Home</a>
+    <span class="bc-sep">›</span>
+    <a href="product-lineup.html" class="bc-item">Product Lineup</a>
+    <span class="bc-sep">›</span>
+    <span class="bc-current lbl" id="prod-breadcrumb">Loading…</span>
+  </div>
+</div>
+
+<!-- PRODUCT HERO -->
+<section class="prod-hero">
+  <div class="wrap">
+    <div class="prod-hero-grid">
+
+      <!-- Gallery -->
+      <div class="prod-gallery au">
+        <div class="prod-main-img">
+          <img id="prod-image" src="" alt="" style="display:none;">
+          <div class="edge-top"></div>
+          <div class="edge-right"></div>
+          <div class="scan"></div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="prod-info au">
+        <div class="prod-tags">
+          <span class="tag tag-cat" id="prod-tag-cat">—</span>
+          <span class="tag tag-class" id="prod-tag-class">—</span>
+          <span class="tag tag-role" id="prod-tag-role">—</span>
+        </div>
+
+        <h1 class="prod-title" id="prod-title">Loading…</h1>
+
+        <!-- Spec Table -->
+        <div class="spec-table">
+          <div class="spec-row">
+            <div class="spec-key">Name</div>
+            <div class="spec-val" id="prod-spec-name">—</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">Class</div>
+            <div class="spec-val" id="prod-spec-class">—</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">Role</div>
+            <div class="spec-val" id="prod-spec-role">—</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">Category</div>
+            <div class="spec-val" id="prod-spec-cat">—</div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="prod-actions">
+          <button type="button" class="btn btn-primary" id="quoteNowBtn">
+            Request Quote Now
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l5 4-5 4" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="btn btn-wishlist" id="addToCartBtn">
+            <svg width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M2 3h2l1.5 9.5a1.5 1.5 0 0 0 1.5 1.3h7.2a1.5 1.5 0 0 0 1.5-1.2L17 6H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="addToCartLabel">Add to Quote Cart</span>
+          </button>
+        </div>
+
+        <!-- External Links -->
+        <div class="ext-links">
+          <a href="#" class="ext-link" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6.5h5M9 6.5 6.5 4M9 6.5 6.5 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Steam Workshop
+          </a>
+          <a href="#" class="ext-link" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 6.5h5M9 6.5 6.5 4M9 6.5 6.5 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Mod.io
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DESCRIPTION -->
+<section class="prod-desc-section">
+  <div class="wrap">
+    <div class="desc-grid">
+      <div class="desc-body au">
+        <div class="sec-tag"><div class="sec-tag-line"></div><span class="lbl">About This Vessel</span></div>
+        <h3 id="prod-desc-title" style="font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;margin-bottom:16px;">Loading…</h3>
+        <p class="body" id="prod-desc-body">—</p>
+        <p class="body">Every NSW vessel is built to withstand the operational realities of frontier deployment — long service intervals, hostile environments, and limited supply chains. Each unit ships with full ORAC compliance certification and a 90-day post-delivery support window for new builds and major retrofits.</p>
+        <p class="body">For a tailored quote on this vessel — including options, lead time, and integration with your existing fleet — submit a request via our comms relay or add this ship to your Quote Cart and combine it with other vessels for a single comprehensive proposal.</p>
+      </div>
+      <div class="additional-info au">
+        <div class="ai-title">Additional Info</div>
+        <div class="ai-row"><span class="ai-key">Crew Capacity</span><span class="ai-val">Up to 8</span></div>
+        <div class="ai-row"><span class="ai-key">Autonomy</span><span class="ai-val">120 Days</span></div>
+        <div class="ai-row"><span class="ai-key">Cargo Bays</span><span class="ai-val">6 Modular Bays</span></div>
+        <div class="ai-row"><span class="ai-key">Drive Type</span><span class="ai-val">Dual Ion Thrust</span></div>
+        <div class="ai-row"><span class="ai-key">Shield Rating</span><span class="ai-val">Tier-3 Radiation</span></div>
+        <div class="ai-row"><span class="ai-key">Compliance</span><span class="ai-val">ORAC Certified</span></div>
+        <div class="ai-row"><span class="ai-key">Availability</span><span class="ai-val">In Stock · 3 Units</span></div>
+        <div class="ai-row"><span class="ai-key">Lead Time</span><span class="ai-val">14–21 Days</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="wrap">
+    <div class="reviews-header au">
+      <div>
+        <div class="sec-tag"><div class="sec-tag-line"></div><span class="lbl">Operator Reviews</span></div>
+        <h2 class="h2">What Commanders Say</h2>
+      </div>
+      <div class="rating-summary">
+        <div class="rating-big">4.8</div>
+        <div class="rating-info">
+          <div class="rating-stars-row">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="rating-count">Based on 47 field reports</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card au">
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">"Three consecutive 90-day runs through the Terminus Corridor without a single major system failure. The cargo bay reconfiguration took our dock crew under 4 hours — that kind of turnaround matters when you're running on tight schedules."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div>
+            <div class="reviewer-name">Commander Reyes</div>
+            <div class="reviewer-role">Fringe Cargo Ops · 12 years</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card au">
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">"We run two of these across the Kepler Reach route. NSW's build quality is immediately obvious — the redundant drive systems have pulled us through situations where a lesser ship would've been dead in the void."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">M</div>
+          <div>
+            <div class="reviewer-name">Operator Marlowe</div>
+            <div class="reviewer-role">Independent Hauler · 8 years</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card au">
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+        <p class="review-text">"Solid workhorse. The modular bay system is genuinely versatile — we've used it for bulk ore, colony equipment, and even a medical resupply run. One gripe: docking interface firmware needs updating for newer station protocols."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">V</div>
+          <div>
+            <div class="reviewer-name">Fleet Lead Vasquez</div>
+            <div class="reviewer-role">Colonial Supply Division · 5 years</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card au">
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">"NSW support team was exceptional during our extended service contract. The Zero-RG held up on a 110-day Expanse run with zero major incidents. Worth every credit — best value freighter in its class."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">K</div>
+          <div>
+            <div class="reviewer-name">Director Klaas</div>
+            <div class="reviewer-role">Outer Rim Logistics Corp · 20 years</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED PRODUCTS -->
+<section class="related-section">
+  <div class="wrap">
+    <div class="au">
+      <div class="sec-tag"><div class="sec-tag-line"></div><span class="lbl">Related Vessels</span></div>
+      <h2 class="h2">You May Also Need</h2>
+    </div>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div><span style="font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;">NULL SYSTEM</span><br><span style="font-family:var(--f-ui);font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--orange);">Workshop</span></div>
+      <p class="f-desc">Frontier-grade fabrication for colonies and independent operators across the Fringes.</p>
+      <div class="f-relay">Relay: <span>NSW-FRINGE-01</span><br>Sector: <span>Outer Rim Station 7</span></div>
+    </div>
+    <div class="f-col"><h5>Navigation</h5><ul><li><a href="index.html">Home</a></li><li><a href="product-lineup.html">Product Lineup</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About Us</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+    <div class="f-col"><h5>Services</h5><ul><li><a href="services.html">Hull Fabrication</a></li><li><a href="services.html">Refit &amp; Retrofit</a></li><li><a href="services.html">Field Repairs</a></li><li><a href="services.html">Custom Design</a></li><li><a href="services.html">Logistics Support</a></li></ul></div>
+    <div class="f-col"><h5>Comms</h5><ul><li><a href="mailto:contact@nullsystems.com">contact@nullsystems.com</a></li><li><a href="tel:+15550123">+1-555-0123</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bar">
+    <div class="f-copy"><strong>Null System Workshop</strong> © 2026. All Rights Reserved.</div>
+    <div class="f-copy">NSW-FRINGE-01 · OUTER RIM STATION 7</div>
+  </div>
+</footer>
+
+<script src="assets/js/products.js"></script>
+<script src="assets/js/cart.js"></script>
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('on', window.scrollY > 50), { passive: true });
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }), { threshold: 0.1 });
+  document.querySelectorAll('.au').forEach(el => io.observe(el));
+
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    var products = window.NSW_PRODUCTS || {};
+    var p = id && products[id];
+
+    if (!p) {
+      window.location.replace('product-lineup.html');
+      return;
+    }
+
+    document.title = p.name + ' — NULL SYSTEM WORKSHOP';
+    setText('prod-breadcrumb', p.name);
+    setText('prod-title', p.name);
+    setText('prod-tag-cat', p.category);
+    setText('prod-tag-class', p.class);
+    setText('prod-tag-role', p.role);
+    setText('prod-spec-name', p.name);
+    setText('prod-spec-class', p.class);
+    setText('prod-spec-role', p.role);
+    setText('prod-spec-cat', p.category);
+    setText('prod-desc-title', p.name);
+    setText('prod-desc-body', p.desc);
+
+    var img = document.getElementById('prod-image');
+    if (img && p.image) {
+      img.src = p.image;
+      img.alt = p.name;
+      img.style.display = 'block';
+    }
+
+    function syncCartButton() {
+      var btn = document.getElementById('addToCartBtn');
+      var label = document.getElementById('addToCartLabel');
+      if (!btn || !label) return;
+      var inCart = window.NSWCart && window.NSWCart.has(id);
+      btn.classList.toggle('active', !!inCart);
+      label.textContent = inCart ? 'Saved to Quote Cart' : 'Add to Quote Cart';
+    }
+    syncCartButton();
+    document.addEventListener('cart:changed', syncCartButton);
+
+    var addBtn = document.getElementById('addToCartBtn');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        if (!window.NSWCart) return;
+        if (window.NSWCart.has(id)) {
+          window.NSWCart.remove(id);
+        } else {
+          window.NSWCart.add(id);
+        }
+      });
+    }
+
+    var quoteBtn = document.getElementById('quoteNowBtn');
+    if (quoteBtn) {
+      quoteBtn.addEventListener('click', function () {
+        if (window.NSWCart && !window.NSWCart.has(id)) {
+          window.NSWCart.add(id);
+        }
+        window.location.href = 'index.html?from-cart=1#contact';
+      });
+    }
+
+    var related = document.getElementById('related-grid');
+    if (related) {
+      var others = Object.keys(products).filter(function (k) { return k !== id; });
+      others.sort(function () { return Math.random() - 0.5; });
+      var pick = others.slice(0, 3);
+      related.innerHTML = pick.map(function (k) {
+        var rp = products[k];
+        return (
+          '<a href="product-detail.html?id=' + k + '" class="rel-card au in">' +
+            '<div class="rel-thumb">' +
+              (rp.image ? '<img src="' + rp.image + '" alt="' + escAttr(rp.name) + '">' : '') +
+            '</div>' +
+            '<div class="rel-body">' +
+              '<div class="rel-cat">' + esc(rp.category) + ' · ' + esc(rp.class) + ' · ' + esc(rp.role) + '</div>' +
+              '<div class="rel-name">' + esc(rp.name) + '</div>' +
+            '</div>' +
+          '</a>'
+        );
+      }).join('');
+    }
+
+    function setText(elId, value) {
+      var el = document.getElementById(elId);
+      if (el) el.textContent = value;
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function escAttr(s) { return esc(s); }
+  })();
+</script>
+</body>
+</html>
